@@ -27,6 +27,20 @@ function xmldb_vpl_upgrade($oldversion = 0) {
 
     $dbman = $DB->get_manager();
 
+    if($oldversion < 2017022802) {
+
+
+        // Rename field level on table vpl to q_level because level is a sql reserved word.
+        $table = new xmldb_table('vpl');
+        $field = new xmldb_field('level', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'emailteachers');
+
+        // Launch rename field q_level.
+        $dbman->rename_field($table, $field, 'q_level');
+
+        // Vpl savepoint reached.
+        upgrade_mod_savepoint(true, 2017022802, 'vpl');
+
+    }
 
     if($oldversion < 2017022801) {
         // Define field level to be added to vpl.
