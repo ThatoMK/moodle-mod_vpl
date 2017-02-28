@@ -26,6 +26,29 @@ function xmldb_vpl_upgrade($oldversion = 0) {
     global $CFG, $DB;
 
     $dbman = $DB->get_manager();
+
+
+    if($oldversion < 2017022801) {
+        // Define field level to be added to vpl.
+        $table = new xmldb_table('vpl');
+        $field = new xmldb_field('level', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'emailteachers');
+
+        // Conditionally launch add field level.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('outcome', XMLDB_TYPE_INTEGER, '1', null, null, null, '1', 'level');
+
+        // Conditionally launch add field outcome.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Vpl savepoint reached.
+        upgrade_mod_savepoint(true, 2017022801, 'vpl');
+    }
+
     if ($oldversion < 2012060112) {
 
         // Define field intro to be added to vpl.
