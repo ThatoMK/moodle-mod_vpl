@@ -57,6 +57,19 @@ class mod_vpl_mod_form extends moodleform_mod {
         ));
         $mform->setDefault('outcome',1);
 
+        $mform->addElement( 'select','q_level','Question Level',array(
+            1 => '1',
+            2 => '2'
+            3 => '3',
+            4 => '4'
+            5 => '5',
+            6 => '6'
+            7 => '7',
+            8 => '8',
+            9 => '9'
+        ));
+        $mform->setDefault('q_level',1);
+
         $mform->addElement( 'header', 'submissionperiod', get_string( 'submissionperiod', VPL ) );
         $secondsday = 24 * 60 * 60;
         $now = time();
