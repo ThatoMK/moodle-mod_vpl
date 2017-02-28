@@ -37,7 +37,7 @@
         <FIELD NAME="jailservers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="List of jail servers"/>
         <FIELD NAME="worktype" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Type of work 0=individual, 1=group, 2=distributed work"/>
         <FIELD NAME="emailteachers" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="level" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="A questions level"/>
+        <FIELD NAME="q_level" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="A questions level"/>
         <FIELD NAME="outcome" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="1" SEQUENCE="false" COMMENT="Which outcome does this question belong to"/>
       </FIELDS>
       <KEYS>
