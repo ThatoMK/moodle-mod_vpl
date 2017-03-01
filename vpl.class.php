@@ -1603,7 +1603,7 @@ class mod_vpl {
 
         }
         //This is hardcoded in...will fix in the future (he says always...)
-        $this->print_restriction('', '', true, true);
+        echo '<br />';
         if ($this->instance->outcome == 1) {
             $this->print_restriction('Outcome', 'A (C language)', true, true);
         } else {
