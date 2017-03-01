@@ -1599,7 +1599,14 @@ class mod_vpl {
             if ($this->instance->maxexeprocesses) {
                 $this->print_restriction( 'maxexeprocesses', null, false, false );
             }
-            $this->print_restriction('Outcome',$this->instance->outcome,true,true);
+
+            //This is hardcoded in...will fix in the future (he says always...)
+            if ($this->instance->outcome == 1) {
+                $this->print_restriction('Outcome', 'A (C language)', true, true);
+            } else {
+                $this->print_restriction('Outcome', 'B (Octave language)', true, true);
+            }
+            $this->print_restriction('Question Level:', $this->instance->q_level, true, true);
         }
     }
 
