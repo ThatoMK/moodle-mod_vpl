@@ -56,6 +56,7 @@ $vpl->print_header( get_string( 'description', VPL ) );
 $vpl->print_view_tabs( basename( __FILE__ ) );
 $vpl->print_name();
 echo $OUTPUT->box_start();
+$vpl->print_outcome_level();
 $vpl->print_submission_period();
 $vpl->print_submission_restriction();
 $vpl->print_variation( $userid );

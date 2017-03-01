@@ -1486,6 +1486,28 @@ class mod_vpl {
     }
 
     /**
+     * Calculate and print the current users level for the outcome of this question
+     */
+    public function print_outcome_level() {
+        global $CFG, $USER, $DB;
+        $text = '';
+        $text .= "Instance ID: " . $this->instance->id; //Question ID
+        $text .= '<p>' . 'User ID: ' . $USER->id;
+        $text .= '<p>';
+        echo $text;
+/*
+        $result = $DB->get_record_sql('SELECT mdl_vpl.outcome, mdl_vpl.q_level, mdl_vpl_submissions.grade
+                                        FROM mdl_vpl_submissions
+                                        INNER JOIN mdl_vpl
+                                        ON mdl_vpl_submissions.userid = ? AND mdl_vpl_submissions.vpl = mdl_vpl.id;',
+                                        )
+
+*/
+
+
+    }
+
+    /**
      * Show vpl submission restriction
      */
     public function print_submission_restriction() {
