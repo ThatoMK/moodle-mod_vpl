@@ -1599,6 +1599,7 @@ class mod_vpl {
             if ($this->instance->maxexeprocesses) {
                 $this->print_restriction( 'maxexeprocesses', null, false, false );
             }
+            $this->print_restriction('Outcome',$this->instance->outcome,true,true);
         }
     }
 
