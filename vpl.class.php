@@ -1605,9 +1605,9 @@ class mod_vpl {
         //This is hardcoded in...will fix in the future (he says always...)
         echo '<br />';
         if ($this->instance->outcome == 1) {
-            $this->print_restriction('Outcome', 'A (C language)', true, true);
+            $this->print_restriction('Module Outcome', 'A (C language)', true, true);
         } else {
-            $this->print_restriction('Outcome', 'B (Octave language)', true, true);
+            $this->print_restriction('Module Outcome', 'B (Octave language)', true, true);
         }
         $this->print_restriction('Question Level', $this->instance->q_level, true, true);
     }
