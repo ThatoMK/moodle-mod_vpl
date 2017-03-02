@@ -1485,26 +1485,42 @@ class mod_vpl {
         }
     }
 
+
     /**
-     * Calculate and print the current users level for the outcome of this question
+     * Calculate the current users level for the outcome of this question
+     */
+    public function calculate_outcome_level() {
+        global $CFG, $USER, $DB;
+        //Get a list of submissions of this question's Outcome for this user
+        $result = $DB->get_records_sql("SELECT vs.id, v.outcome, v.q_level, vs.grade
+                                        FROM {vpl_submissions} as vs
+                                        INNER JOIN {vpl} as v
+                                        ON vs.userid = ? AND vs.vpl = v.id AND v.outcome = ?;",
+            array($USER->id,$this->instance->outcome));
+//        $result = $DB->get_records_sql("SELECT grade
+//                                        FROM {vpl_submissions}
+//                                        WHERE  userid = ?;",
+//                                    array($USER->id));
+
+        $max_level = 0;
+        foreach($result as $x => $x_val) {
+            if($x_val->grade>0.0 && $x_val->q_level > $max_level) {
+                $max_level = $x_val->q_level;
+            }
+
+        }
+
+        return $max_level;
+    }
+
+    /**
+     * Print the current users level for the outcome of this question
      */
     public function print_outcome_level() {
-        global $CFG, $USER, $DB;
-        $text = '';
-        $text .= "Instance ID: " . $this->instance->id; //Question ID
-        $text .= '<p>' . 'User ID: ' . $USER->id;
-        $text .= '<p>';
+        $level = $this->calculate_outcome_level();
+        
+        $text = '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level . '</h4><p></p>';
         echo $text;
-/*
-        $result = $DB->get_record_sql('SELECT mdl_vpl.outcome, mdl_vpl.q_level, mdl_vpl_submissions.grade
-                                        FROM mdl_vpl_submissions
-                                        INNER JOIN mdl_vpl
-                                        ON mdl_vpl_submissions.userid = ? AND mdl_vpl_submissions.vpl = mdl_vpl.id;',
-                                        )
-
-*/
-
-
     }
 
     /**
