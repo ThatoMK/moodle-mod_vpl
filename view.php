@@ -42,6 +42,7 @@ if (! $vpl->is_visible()) {
 if (! $vpl->has_capability( VPL_MANAGE_CAPABILITY ) && ! $vpl->has_capability( VPL_GRADE_CAPABILITY )) {
     $vpl->network_check();
     $vpl->password_check();
+    $vpl->level_check();
     $userid = $USER->id;
 } else {
     $userid = optional_param( 'userid', $USER->id, PARAM_INT );
