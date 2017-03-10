@@ -1532,7 +1532,7 @@ class mod_vpl {
     public function level_check(){
         $level = $this->calculate_outcome_level();
 
-        if($this->instance->q_level > $level && $this->instance->q_level > 1) {
+        if($this->instance->q_level > $level+1) {
             $this->print_header();
             echo '<h4>This question exceeds your current level</h4>';
             echo '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level . '</h4><p></p>';
