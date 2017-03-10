@@ -1535,7 +1535,7 @@ class mod_vpl {
         if($this->instance->q_level > $level+1) {
             $this->print_header();
             echo '<h4>This question exceeds your current level</h4>';
-            echo '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level . '</h4><p></p>';
+            echo '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level .  ' so your next question should be level ' . ($level+1) .'</h4><p></p>';
             echo '<h4>This question is Level ' . $this->instance->q_level . '</h4><p></p>';
             $this->print_footer();
             die();
