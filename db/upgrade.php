@@ -27,6 +27,48 @@ function xmldb_vpl_upgrade($oldversion = 0) {
 
     $dbman = $DB->get_manager();
 
+    if ($oldversion < 2017031501) {
+
+        // Define field session_count to be added to vpl_question_assignment_log.
+        $table = new xmldb_table('vpl_question_assignment_log');
+        $field = new xmldb_field('session_count', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'q_number');
+
+        // Conditionally launch add field session_count.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Vpl savepoint reached.
+        upgrade_mod_savepoint(true, 2017031501, 'vpl');
+    }
+
+
+    if ($oldversion < 2017031401) {
+
+        // Define table vpl_question_assignment_log to be created.
+        $table = new xmldb_table('vpl_question_assignment_log');
+
+        // Adding fields to table vpl_question_assignment_log.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('outcome', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('q_level', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('q_number', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+
+        // Adding keys to table vpl_question_assignment_log.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for vpl_question_assignment_log.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Vpl savepoint reached.
+        upgrade_mod_savepoint(true, 2017031401, 'vpl');
+    }
+
+
+
     if($oldversion < 2017022802) {
 
 

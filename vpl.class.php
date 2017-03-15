@@ -1487,6 +1487,100 @@ class mod_vpl {
         }
     }
 
+    /**
+     * Determine which question is assigned to student
+     */
+    public function assign_question() {
+        global $USER, $DB;
+
+        //Determine how many questions of this level exist for this outcome
+        $questions = $DB->get_records_sql("SELECT id, name
+                                        FROM {vpl}
+                                        WHERE outcome = ? AND q_level = ? ;",
+                                        array($this->instance->outcome,$this->instance->q_level));
+
+        $q_count = count($questions);
+
+        //Count how many session starts have passed
+        $sessions = $DB->get_records_sql("SELECT rr.id, r.name, r.location, r.timestart, r.timeend, rr.timecancelled
+                                        FROM {reservation_request} as rr
+                                        INNER JOIN {reservation} as r
+                                        ON rr.userid = ? AND rr.reservation = r.id;",
+                                        array($USER->id));
+        $session_count = 0;
+
+        foreach($sessions as $r => $r_val) {
+            if($r_val->timecancelled == 0 && $r_val->timestart <= time()) {
+                $session_count++;
+            }
+        }
+
+        //Check existing question assignments for this level and outcome
+        $assignments = $DB->get_records_sql("SELECT q_number, session_count
+                                        FROM {vpl_question_assignment_log}
+                                        WHERE userid = ? AND outcome = ? AND q_level=?;",
+            array($USER->id,$this->instance->outcome,$this->instance->q_level));
+
+        //find max session number
+        $max_session = -1;
+        $max_q_number = -1;
+        foreach($assignments as $a => $a_val) {
+            if($a_val->session_count > $max_session) {
+                $max_session = $a_val->session_count;
+                $max_q_number = $a_val->q_number;
+            }
+        }
+
+        if($max_session < $session_count) { //Assign new question
+            $record = new stdClass();
+            $record->userid = $USER->id;
+            $record->outcome = $this->instance->outcome;
+            $record->q_level = $this->instance->q_level;
+            $record->session_count = $session_count;
+            //Determine next question to assign
+            if(count($assignments)==0) {
+
+                $assigned_q_number = $USER->id % $q_count + 1;
+            } else {
+                $assigned_q_number = $max_q_number;
+                $loop_count = 0;
+                do {
+                    //$assigned_q_number++;
+                    $assigned_q_number = ($assigned_q_number%$q_count)+1;
+                    //Check if this number has been assigned or not
+                    //echo '<p>1 ' .$assigned_q_number .'</p>';
+
+                    $assigned = false;
+                    foreach($assignments as $a => $a_val) {
+                        if ($a_val->q_number == $assigned_q_number) {
+                            $assigned = true;
+                        }
+                       // echo '<p>2 ' .$a_val->q_number .'</p>';
+                    }
+                    $loop_count++;
+                } while($assigned && $loop_count<$q_count-1);
+                if($assigned && $loop_count == $q_count-1) { //No unassigned questions just go to next one
+                    $assigned_q_number = ($max_q_number%$q_count)+1;
+                 }
+            }
+
+            $record->q_number = $assigned_q_number;
+            $max_q_number = $assigned_q_number;
+            $insertid = $DB->insert_record('vpl_question_assignment_log',$record);
+
+        }
+
+        $question_keys = array_keys($questions);
+        $assigned_q_name = $questions[$question_keys[$max_q_number-1]]->name;
+
+        //Alert student if this is not the correct question
+        if($question_keys[$max_q_number-1] != $this->instance->id) {
+            echo "<h4>You have been assigned the following question for this session:</h4>";
+            echo "<h4><strong>".$assigned_q_name."</strong></h4>";
+            echo "<h4>Please go back and choose that question</h4>";
+            die;
+        }
+    }
 
     /**
      * Calculate the current users level for the outcome of this question
@@ -1515,6 +1609,32 @@ class mod_vpl {
         return $max_level;
     }
 
+
+    //check if the sutdent is in the current session
+    public function session_check() {
+        global $DB,$USER;
+        $result = $DB->get_records_sql("SELECT rr.id, r.name, r.location, r.timestart, r.timeend, rr.timecancelled
+                                        FROM {reservation_request} as rr
+                                        INNER JOIN {reservation} as r
+                                        ON rr.userid = ? AND rr.reservation = r.id;",
+            array($USER->id));
+        $in_session = false;
+
+        foreach($result as $r => $r_val) {
+            if($r_val->timestart <= time() && $r_val->timeend+600 >= time()) { //Add in 10 minute leeway at end
+                $in_session = true;
+            }
+
+        }
+
+        if($in_session == false) {
+            $this->print_header();
+            echo '<h4>You are not scheduled to write in this session!</h4><h4>Check your session schedule!</h4>';
+            $this->print_footer();
+            die();
+        }
+    }
+
     /**
      * Print the current users level for the outcome of this question
      */
@@ -1522,7 +1642,9 @@ class mod_vpl {
         $level = $this->calculate_outcome_level();
         
         $text = '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level . '</h4><p></p>';
+
         echo $text;
+        //echo 'In Session: ' . ($this->session_check()? 'TRUE' : 'FALSE') .'<p></p>';
     }
 
 
@@ -1541,6 +1663,7 @@ class mod_vpl {
             die();
         }
     }
+
 
 
     /**

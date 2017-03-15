@@ -42,7 +42,10 @@ if (! $vpl->is_visible()) {
 if (! $vpl->has_capability( VPL_MANAGE_CAPABILITY ) && ! $vpl->has_capability( VPL_GRADE_CAPABILITY )) {
     $vpl->network_check();
     $vpl->password_check();
+    $vpl->session_check();
     $vpl->level_check();
+
+
     $userid = $USER->id;
 } else {
     $userid = optional_param( 'userid', $USER->id, PARAM_INT );
@@ -58,6 +61,7 @@ $vpl->print_view_tabs( basename( __FILE__ ) );
 $vpl->print_name();
 echo $OUTPUT->box_start();
 $vpl->print_outcome_level();
+$vpl->assign_question();
 $vpl->print_submission_period();
 $vpl->print_submission_restriction();
 $vpl->print_variation( $userid );
