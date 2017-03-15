@@ -27,20 +27,7 @@ function xmldb_vpl_upgrade($oldversion = 0) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2017031501) {
 
-        // Define field session_count to be added to vpl_question_assignment_log.
-        $table = new xmldb_table('vpl_question_assignment_log');
-        $field = new xmldb_field('session_count', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'q_number');
-
-        // Conditionally launch add field session_count.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Vpl savepoint reached.
-        upgrade_mod_savepoint(true, 2017031501, 'vpl');
-    }
 
 
     if ($oldversion < 2017031401) {
@@ -67,7 +54,20 @@ function xmldb_vpl_upgrade($oldversion = 0) {
         upgrade_mod_savepoint(true, 2017031401, 'vpl');
     }
 
+    if ($oldversion < 2017031501) {
 
+        // Define field session_count to be added to vpl_question_assignment_log.
+        $table = new xmldb_table('vpl_question_assignment_log');
+        $field = new xmldb_field('session_count', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'q_number');
+
+        // Conditionally launch add field session_count.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Vpl savepoint reached.
+        upgrade_mod_savepoint(true, 2017031501, 'vpl');
+    }
 
     if($oldversion < 2017022802) {
 
