@@ -57,13 +57,14 @@ $PAGE->requires->css( new moodle_url( '/mod/vpl/css/sh.css' ) );
 $vpl->print_header( get_string( 'description', VPL ) );
 
 // Print the main part of the page.
+if (!$vpl->has_capability( VPL_GRADE_CAPABILITY )) {
+    $vpl->assign_question();
+}
 $vpl->print_view_tabs( basename( __FILE__ ) );
 $vpl->print_name();
 echo $OUTPUT->box_start();
 $vpl->print_outcome_level();
-if (!$vpl->has_capability( VPL_GRADE_CAPABILITY )) {
-    $vpl->assign_question();
-}
+
 $vpl->print_submission_period();
 $vpl->print_submission_restriction();
 $vpl->print_variation( $userid );
