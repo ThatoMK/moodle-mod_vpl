@@ -44,7 +44,7 @@ if (! $vpl->has_capability( VPL_MANAGE_CAPABILITY ) && ! $vpl->has_capability( V
     $vpl->password_check();
     $vpl->session_check();
     $vpl->level_check();
-
+    $vpl->assign_question();
 
     $userid = $USER->id;
 } else {
@@ -57,9 +57,9 @@ $PAGE->requires->css( new moodle_url( '/mod/vpl/css/sh.css' ) );
 $vpl->print_header( get_string( 'description', VPL ) );
 
 // Print the main part of the page.
-if (!$vpl->has_capability( VPL_GRADE_CAPABILITY )) {
-    $vpl->assign_question();
-}
+//if (!$vpl->has_capability( VPL_GRADE_CAPABILITY )) {
+//    $vpl->assign_question();
+//}
 $vpl->print_view_tabs( basename( __FILE__ ) );
 $vpl->print_name();
 echo $OUTPUT->box_start();
