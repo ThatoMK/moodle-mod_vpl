@@ -133,7 +133,10 @@ class backup_vpl_activity_structure_step extends backup_activity_structure_step 
                 'maxexeprocesses',
                 'jailservers',
                 'emailteachers',
-                'worktype'
+                'worktype',
+                'q_level',
+                'outcome'
+
         ) );
         $filefields = array ('name', 'content', 'encoding');
         $idfield = array ('id');
