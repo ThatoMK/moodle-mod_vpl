@@ -1663,7 +1663,7 @@ class mod_vpl {
             echo '<h4>This question is Level ' . $this->instance->q_level . '</h4><p></p>';
             $this->print_footer();
             die();
-        } else if {$this->instance->q_level < $level+1)
+        } else if ($this->instance->q_level < $level+1) {
             $this->print_header();
             echo '<h4>This question is below your current level</h4>';
             echo '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level .  ' so your next question should be level ' . ($level+1) .'</h4><p></p>';
