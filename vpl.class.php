@@ -1538,31 +1538,38 @@ class mod_vpl {
             $record->q_level = $this->instance->q_level;
             $record->session_count = $session_count;
             //Determine next question to assign
-            if(count($assignments)==0) {
-
-                $assigned_q_number = $USER->id % $q_count + 1;
+            if(count($assignments) <= count($assignments)/2) {
+                //select random from unseen questions
             } else {
-                $assigned_q_number = $max_q_number;
-                $loop_count = 0;
-                do {
-                    //$assigned_q_number++;
-                    $assigned_q_number = ($assigned_q_number%$q_count)+1;
-                    //Check if this number has been assigned or not
-                    //echo '<p>1 ' .$assigned_q_number .'</p>';
-
-                    $assigned = false;
-                    foreach($assignments as $a => $a_val) {
-                        if ($a_val->q_number == $assigned_q_number) {
-                            $assigned = true;
-                        }
-                       // echo '<p>2 ' .$a_val->q_number .'</p>';
-                    }
-                    $loop_count++;
-                } while($assigned && $loop_count<$q_count-1);
-                if($assigned && $loop_count == $q_count-1) { //No unassigned questions just go to next one
-                    $assigned_q_number = ($max_q_number%$q_count)+1;
-                 }
+                //select complete random from full pool
+                $assigned_q_number = rand(1,$q_count);
             }
+
+//            if(count($assignments)==0) {
+//
+//                $assigned_q_number = $USER->id % $q_count + 1;
+//            } else {
+//                $assigned_q_number = $max_q_number;
+//                $loop_count = 0;
+//                do {
+//                    //$assigned_q_number++;
+//                    $assigned_q_number = ($assigned_q_number%$q_count)+1;
+//                    //Check if this number has been assigned or not
+//                    //echo '<p>1 ' .$assigned_q_number .'</p>';
+//
+//                    $assigned = false;
+//                    foreach($assignments as $a => $a_val) {
+//                        if ($a_val->q_number == $assigned_q_number) {
+//                            $assigned = true;
+//                        }
+//                       // echo '<p>2 ' .$a_val->q_number .'</p>';
+//                    }
+//                    $loop_count++;
+//                } while($assigned && $loop_count<$q_count-1);
+//                if($assigned && $loop_count == $q_count-1) { //No unassigned questions just go to next one
+//                    $assigned_q_number = ($max_q_number%$q_count)+1;
+//                 }
+//            }
 
             $record->q_number = $assigned_q_number;
             $max_q_number = $assigned_q_number;
@@ -1659,14 +1666,14 @@ class mod_vpl {
         if($this->instance->q_level > $level+1) {
             $this->print_header();
             echo '<h4>This question exceeds your current level</h4>';
-            echo '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level .  ' so your next question should be level ' . ($level+1) .'</h4><p></p>';
+            echo '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level .  ' so your next question should be Level ' . ($level+1) .'</h4><p></p>';
             echo '<h4>This question is Level ' . $this->instance->q_level . '</h4><p></p>';
             $this->print_footer();
             die();
         } else if ($this->instance->q_level < $level+1) {
             $this->print_header();
             echo '<h4>This question is below your current level</h4>';
-            echo '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level .  ' so your next question should be level ' . ($level+1) .'</h4><p></p>';
+            echo '<h4>Your current level for Outcome ' . ($this->instance->outcome==1?'A ':'B ') . ' is ' . $level .  ' so your next question should be Level ' . ($level+1) .'</h4><p></p>';
             echo '<h4>This question is Level ' . $this->instance->q_level . '</h4><p></p>';
             $this->print_footer();
             die();
