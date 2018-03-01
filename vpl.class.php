@@ -1578,7 +1578,7 @@ class mod_vpl {
                 echo "<h4>You have been assigned the following question for this session:</h4>";
                 echo "<h4><strong>" . $assigned_q_name . "</strong></h4>";
                 echo "<h4>Please go back and choose that question</h4>";
-                print_r($q_count);
+                echo "<h3>" . ($q_count) . "</h3>";
                 $this->print_footer();
                 die;
             }
