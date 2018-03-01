@@ -1494,7 +1494,7 @@ class mod_vpl {
         global $USER, $DB;
 
 
-        
+
 
         //Determine how many questions of this level exist for this outcome
         $questions = $DB->get_records_sql("SELECT id, name
@@ -1545,21 +1545,21 @@ class mod_vpl {
                 $record->q_level = $this->instance->q_level;
                 $record->session_count = $session_count;
                 //Determine next question to assign
-//                if (count($assignments) <= q_count / 2) {
-//                    //select random from unseen questions
-//                    $unassigned_questions = array();
-//                    for ($i = 1; i <= q_count; $i++) {
-//                        if (!in_array($i, $prev_assigned_questions)) {
-//                            array_push($unassigned_questions, $i);
-//                        }
-//                    }
-//
-//                    $assigned_q_number = $unassigned_questions[rand(0, count($unassigned_questions) - 1)];
-//
-//                } else {
+                if (count($assignments) <= q_count / 2) {
+                    //select random from unseen questions
+                    $unassigned_questions = array();
+                    for ($i = 1; i <= q_count; $i++) {
+                        if (!in_array($i, $prev_assigned_questions)) {
+                            array_push($unassigned_questions, $i);
+                        }
+                    }
+
+                    $assigned_q_number = $unassigned_questions[rand(0, count($unassigned_questions) - 1)];
+
+                } else {
                     //select complete random from full pool
                     $assigned_q_number = rand(1, $q_count);
-                //}
+                }
 
                 $record->q_number = $assigned_q_number;
                 $max_q_number = $assigned_q_number;
