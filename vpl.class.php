@@ -1527,66 +1527,66 @@ class mod_vpl {
 
 
 
-            //find max session number
-            $max_session = -1;
-            //$max_q_number = -1;
-            $prev_assigned_questions = array();
-            foreach ($assignments as $a => $a_val) {
-                if ($a_val->session_count > $max_session) {
-                    $max_session = $a_val->session_count;
-                    $max_q_number = $a_val->q_number;
-                    array_push($prev_assigned_questions, $a_val->q_number);
-                }
+        //find max session number
+        $max_session = -1;
+        //$max_q_number = -1;
+        $prev_assigned_questions = array();
+        foreach ($assignments as $a => $a_val) {
+            if ($a_val->session_count > $max_session) {
+                $max_session = $a_val->session_count;
+                $max_q_number = $a_val->q_number;
+                array_push($prev_assigned_questions, $a_val->q_number);
             }
+        }
 
-            if ($max_session < $session_count) { //Assign new question
-                $record = new stdClass();
-                $record->userid = $USER->id;
-                $record->outcome = $this->instance->outcome;
-                $record->q_level = $this->instance->q_level;
-                $record->session_count = $session_count;
-                //Determine next question to assign
-                if (count($assignments) <= q_count / 2) {
-                    //select random from unseen questions
-                    $unassigned_questions = array();
-                    for ($i = 1; i <= q_count; $i++) {
-                        if (!in_array($i, $prev_assigned_questions)) {
-                            array_push($unassigned_questions, $i);
-                        }
+        if ($max_session < $session_count) { //Assign new question
+            $record = new stdClass();
+            $record->userid = $USER->id;
+            $record->outcome = $this->instance->outcome;
+            $record->q_level = $this->instance->q_level;
+            $record->session_count = $session_count;
+            //Determine next question to assign
+            if (count($assignments) <= count($questions) / 2) {
+                //select random from unseen questions
+                $unassigned_questions = array();
+                for ($i = 1; $i <= count($questions); $i++) {
+                    if (!in_array($i, $prev_assigned_questions)) {
+                        array_push($unassigned_questions, $i);
                     }
-
-                    $assigned_q_number = $unassigned_questions[rand(0, count($unassigned_questions) - 1)];
-
-                } else {
-                    //select complete random from full pool
-                    $assigned_q_number = rand(1, $q_count);
                 }
 
-                $record->q_number = $assigned_q_number;
-                $max_q_number = $assigned_q_number;
-                $insertid = $DB->insert_record('vpl_question_assignment_log', $record);
+                $assigned_q_number = $unassigned_questions[rand(0, count($unassigned_questions) - 1)];
 
+            } else {
+                //select complete random from full pool
+                $assigned_q_number = rand(1, $q_count);
             }
 
+            $record->q_number = $assigned_q_number;
+            $max_q_number = $assigned_q_number;
+            $insertid = $DB->insert_record('vpl_question_assignment_log', $record);
+
+        }
 
 
-            $question_keys = array_keys($questions);
-            $assigned_q_name = $questions[$question_keys[$max_q_number - 1]]->name;
 
-            //Alert student if this is not the correct question
-            if ($question_keys[$max_q_number - 1] != $this->instance->id) {
-                $this->print_header();
-                echo "<h4>You have been assigned the following question for this session:</h4>";
-                echo "<h4><strong>" . $assigned_q_name . "</strong></h4>";
-                echo "<h4>Please go back and choose that question</h4>";
-                echo "<h3>" . ($q_count) . "</h3>";
-                echo "<h3>" . count($assignments) . "</h3>";
-                echo "<h3>" . ($max_session ) . "</h3>";
-                echo "<h3>" . ($session_count) . "</h3>";
-                print_r($assignments);
-                $this->print_footer();
-                die;
-            }
+        $question_keys = array_keys($questions);
+        $assigned_q_name = $questions[$question_keys[$max_q_number - 1]]->name;
+
+        //Alert student if this is not the correct question
+        if ($question_keys[$max_q_number - 1] != $this->instance->id) {
+            $this->print_header();
+            echo "<h4>You have been assigned the following question for this session:</h4>";
+            echo "<h4><strong>" . $assigned_q_name . "</strong></h4>";
+            echo "<h4>Please go back and choose that question</h4>";
+            echo "<h3>" . ($q_count) . "</h3>";
+            echo "<h3>" . count($assignments) . "</h3>";
+            echo "<h3>" . ($max_session ) . "</h3>";
+            echo "<h3>" . ($session_count) . "</h3>";
+            print_r($assignments);
+            $this->print_footer();
+            die;
+        }
 
 
     }
