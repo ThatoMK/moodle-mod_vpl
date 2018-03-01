@@ -1582,6 +1582,7 @@ class mod_vpl {
                 echo "<h3>" . count($assignments) . "</h3>";
                 echo "<h3>" . ($max_session ) . "</h3>";
                 echo "<h3>" . ($session_count) . "</h3>";
+                print_r($assignments);
                 $this->print_footer();
                 die;
             }
