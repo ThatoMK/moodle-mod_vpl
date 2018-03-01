@@ -1493,8 +1493,8 @@ class mod_vpl {
     public function assign_question() {
         global $USER, $DB;
 
-        error_reporting(E_ALL);
-        ini_set('display_errors', 'On');
+        //error_reporting(E_ALL);
+        //ini_set('display_errors', 'On');
 
 
         //Determine how many questions of this level exist for this outcome
@@ -1580,11 +1580,6 @@ class mod_vpl {
             echo "<h4>You have been assigned the following question for this session:</h4>";
             echo "<h4><strong>" . $assigned_q_name . "</strong></h4>";
             echo "<h4>Please go back and choose that question</h4>";
-            echo "<h3>" . ($q_count) . "</h3>";
-            echo "<h3>" . count($assignments) . "</h3>";
-            echo "<h3>" . ($max_session ) . "</h3>";
-            echo "<h3>" . ($repeat) . "</h3>";
-            print_r($assignments);
             $this->print_footer();
             die;
         }
