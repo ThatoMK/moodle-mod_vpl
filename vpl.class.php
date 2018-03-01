@@ -1579,6 +1579,7 @@ class mod_vpl {
                 echo "<h4><strong>" . $assigned_q_name . "</strong></h4>";
                 echo "<h4>Please go back and choose that question</h4>";
                 echo "<h3>" . ($q_count) . "</h3>";
+                echo "<h3>" . count($assignments) . "</h3>";
                 $this->print_footer();
                 die;
             }
