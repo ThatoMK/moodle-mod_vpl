@@ -1492,7 +1492,7 @@ class mod_vpl {
      */
     public function assign_question() {
         global $USER, $DB;
-
+        try {
         //Determine how many questions of this level exist for this outcome
         $questions = $DB->get_records_sql("SELECT id, name
                                         FROM {vpl}
@@ -1521,7 +1521,7 @@ class mod_vpl {
                                         WHERE userid = ? AND outcome = ? AND q_level=?;",
             array($USER->id,$this->instance->outcome,$this->instance->q_level));
         $err = false;
-        try {
+
 
             //find max session number
             $max_session = -1;
