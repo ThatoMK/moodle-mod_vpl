@@ -1526,7 +1526,7 @@ class mod_vpl {
             array($USER->id,$this->instance->outcome,$this->instance->q_level));
 
 
-
+        $repeat = false;
         //find max session number
         $max_session = -1;
         //$max_q_number = -1;
@@ -1560,6 +1560,7 @@ class mod_vpl {
             } else {
                 //select complete random from full pool
                 $assigned_q_number = rand(1, $q_count);
+                $repeat = true;
             }
 
             $record->q_number = $assigned_q_number;
@@ -1582,7 +1583,7 @@ class mod_vpl {
             echo "<h3>" . ($q_count) . "</h3>";
             echo "<h3>" . count($assignments) . "</h3>";
             echo "<h3>" . ($max_session ) . "</h3>";
-            echo "<h3>" . ($session_count) . "</h3>";
+            echo "<h3>" . ($repeat) . "</h3>";
             print_r($assignments);
             $this->print_footer();
             die;
