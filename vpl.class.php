@@ -1540,7 +1540,7 @@ class mod_vpl {
             $record->q_level = $this->instance->q_level;
             $record->session_count = $session_count;
             //Determine next question to assign
-            if(count($assignments) <= count($assignments)/2) {
+            if(count($assignments) <= q_count/2) {
                 //select random from unseen questions
                 $unassigned_questions = array();
                 for($i = 1;i<=q_count;$i++) {
