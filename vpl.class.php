@@ -1494,7 +1494,7 @@ class mod_vpl {
         global $USER, $DB;
 
 
-        try {
+        
 
         //Determine how many questions of this level exist for this outcome
         $questions = $DB->get_records_sql("SELECT id, name
@@ -1582,13 +1582,7 @@ class mod_vpl {
                 die;
             }
 
-        } catch (Exception $e) {
-            $this->print_header();
-            echo "<h4>ERROR:</h4>";
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-            $this->print_footer();
-            die;
-        }
+
     }
 
     /**
