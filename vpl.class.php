@@ -1492,6 +1492,8 @@ class mod_vpl {
      */
     public function assign_question() {
         global $USER, $DB;
+
+
         try {
         //Determine how many questions of this level exist for this outcome
         $questions = $DB->get_records_sql("SELECT id, name
@@ -1520,7 +1522,7 @@ class mod_vpl {
                                         FROM {vpl_question_assignment_log}
                                         WHERE userid = ? AND outcome = ? AND q_level=?;",
             array($USER->id,$this->instance->outcome,$this->instance->q_level));
-        $err = false;
+
 
 
             //find max session number
@@ -1558,47 +1560,14 @@ class mod_vpl {
                     $assigned_q_number = rand(1, $q_count);
                 }
 
-//            if(count($assignments)==0) {
-//
-//                $assigned_q_number = $USER->id % $q_count + 1;
-//            } else {
-//                $assigned_q_number = $max_q_number;
-//                $loop_count = 0;
-//                do {
-//                    //$assigned_q_number++;
-//                    $assigned_q_number = ($assigned_q_number%$q_count)+1;
-//                    //Check if this number has been assigned or not
-//                    //echo '<p>1 ' .$assigned_q_number .'</p>';
-//
-//                    $assigned = false;
-//                    foreach($assignments as $a => $a_val) {
-//                        if ($a_val->q_number == $assigned_q_number) {
-//                            $assigned = true;
-//                        }
-//                       // echo '<p>2 ' .$a_val->q_number .'</p>';
-//                    }
-//                    $loop_count++;
-//                } while($assigned && $loop_count<$q_count-1);
-//                if($assigned && $loop_count == $q_count-1) { //No unassigned questions just go to next one
-//                    $assigned_q_number = ($max_q_number%$q_count)+1;
-//                 }
-//            }
-
                 $record->q_number = $assigned_q_number;
                 $max_q_number = $assigned_q_number;
                 $insertid = $DB->insert_record('vpl_question_assignment_log', $record);
 
             }
-        } catch (Exception $e) {
-            $err = true;
-            $this->print_header();
-            echo "<h4>ERROR:</h4>";
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-            $this->print_footer();
-            die;
-        }
 
-        if(!$err) {
+
+
             $question_keys = array_keys($questions);
             $assigned_q_name = $questions[$question_keys[$max_q_number - 1]]->name;
 
@@ -1611,6 +1580,14 @@ class mod_vpl {
                 $this->print_footer();
                 die;
             }
+
+        } catch (Exception $e) {
+            $err = true;
+            $this->print_header();
+            echo "<h4>ERROR:</h4>";
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            $this->print_footer();
+            die;
         }
     }
 
