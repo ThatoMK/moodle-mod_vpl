@@ -1495,7 +1495,7 @@ class mod_vpl {
 
 
         try {
-            $test  = 1/0;
+
         //Determine how many questions of this level exist for this outcome
         $questions = $DB->get_records_sql("SELECT id, name
                                         FROM {vpl}
