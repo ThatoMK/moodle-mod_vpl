@@ -1580,6 +1580,8 @@ class mod_vpl {
                 echo "<h4>Please go back and choose that question</h4>";
                 echo "<h3>" . ($q_count) . "</h3>";
                 echo "<h3>" . count($assignments) . "</h3>";
+                echo "<h3>" . ($max_session ) . "</h3>";
+                echo "<h3>" . ($session_count) . "</h3>";
                 $this->print_footer();
                 die;
             }
