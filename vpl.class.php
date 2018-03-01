@@ -1523,11 +1523,13 @@ class mod_vpl {
 
         //find max session number
         $max_session = -1;
-        $max_q_number = -1;
+        //$max_q_number = -1;
+        $prev_assigned_questions = array();
         foreach($assignments as $a => $a_val) {
             if($a_val->session_count > $max_session) {
                 $max_session = $a_val->session_count;
                 $max_q_number = $a_val->q_number;
+                array_push($prev_assigned_questions,$a_val->q_number);
             }
         }
 
@@ -1540,6 +1542,15 @@ class mod_vpl {
             //Determine next question to assign
             if(count($assignments) <= count($assignments)/2) {
                 //select random from unseen questions
+                $unassigned_questions = array();
+                for($i = 1;i<=q_count;$i++) {
+                    if(!in_array($i,$prev_assigned_questions)) {
+                        array_push($unassigned_questions,$i);
+                    }
+                }
+
+                $assigned_q_number = $unassigned_questions[rand(0,count($unassigned_questions)-1)];
+
             } else {
                 //select complete random from full pool
                 $assigned_q_number = rand(1,$q_count);
