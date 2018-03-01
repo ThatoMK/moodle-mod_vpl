@@ -1493,7 +1493,8 @@ class mod_vpl {
     public function assign_question() {
         global $USER, $DB;
 
-
+        error_reporting(E_ALL);
+        ini_set('display_errors', 'On');
 
 
         //Determine how many questions of this level exist for this outcome
