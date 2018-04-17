@@ -1605,7 +1605,7 @@ class mod_vpl {
 
         $max_level = 0;
         foreach($result as $x => $x_val) {
-            echo '<p>' + $x_val->grade;
+            echo '<h4>' . $x_val->grade . '</h4>';
             if($x_val->grade>0.0 && $x_val->q_level > $max_level) {
                 $max_level = $x_val->q_level;
 
