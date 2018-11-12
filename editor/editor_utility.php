@@ -67,7 +67,7 @@ class vpl_editor_util {
             <div id="vpl_filelist_header"><?php p(get_string('filelist', VPL))?></div>
             <div id="vpl_filelist_content"></div>
         </div>
-        <div id="vpl_tabs" class="vpl_ide_tabs">
+        <div id="vpl_tabs" class="vpl_ide_tabs" onkeyup="keyupFunction(event)">
             <div id="vpl_tabs_scroll">
                 <ul id="vpl_tabs_ul"></ul>
             </div>
@@ -177,6 +177,26 @@ class vpl_editor_util {
          </canvas>
     </div>
 </div>
+<!-- Stuff that Thato added to enable keystroke logging-->
+<script>
+var keystrokes = new Array();
+var keyCode;
+//initialize array of key press time at keycode indexes
+for(i = 0; i < 256; i++)
+{
+    initial[i] = -1;
+}
+
+function keyupFunction(event) {
+    keyCode = event.which || event.keyCode;
+    now = Date.now();
+    var stroke = {press_time:initial[keyCode], release_time:now, keycode:keyCode};
+    console.log(stroke);
+    initial[keyCode] = -1;
+    keystrokes.push(stroke);
+}
+</script>
+<!--End of Thato's stuff -->
 <script>
     INCLUDE_URI="../editor/noVNC/include/";
     Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
