@@ -179,7 +179,7 @@ class vpl_editor_util {
 </div>
 <!-- Stuff that Thato added to enable keystroke logging-->
 <script>
-var keystrokes = new Array();
+//var keystrokes = new Array();
 var keyCode;
 //initialize array of key press time at keycode indexes
 for(i = 0; i < 256; i++)

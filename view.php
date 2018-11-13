@@ -36,15 +36,15 @@ $vpl->prepare_page( 'view.php', array (
 $vpl->require_capability( VPL_VIEW_CAPABILITY );
 $id = $vpl->get_course_module()->id;
 
-if (! $vpl->is_visible()) {
+if (! $vpl->is_visible()) { 	
     notice( get_string( 'notavailable' ) );
 }
-if (! $vpl->has_capability( VPL_MANAGE_CAPABILITY ) && ! $vpl->has_capability( VPL_GRADE_CAPABILITY )) {
-    $vpl->network_check();
-    $vpl->password_check();
-    $vpl->session_check();
-    $vpl->level_check();
-    $vpl->assign_question();
+if (! $vpl->has_capability( VPL_MANAGE_CAPABILITY ) && ! $vpl->has_capability( VPL_GRADE_CAPABILITY )){  
+      $vpl->network_check();
+      $vpl->password_check();
+     // $vpl->session_check();
+     // $vpl->level_check();
+     // $vpl->assign_question();
 
     $userid = $USER->id;
 } else {

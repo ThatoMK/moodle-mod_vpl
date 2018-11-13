@@ -71,7 +71,7 @@ class mod_vpl_edit{
     public static function save($vpl, $userid, & $files, $comments='') {
         global $USER;
         if ($subid = $vpl->add_submission( $userid, $files, $comments, $errormessage )) {
-            $id = $vpl->get_course_module()->id;
+	    $id = $vpl->get_course_module()->id;
             \mod_vpl\event\submission_uploaded::log( array (
                     'objectid' => $subid,
                     'context' => $vpl->get_context(),

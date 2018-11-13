@@ -21,6 +21,26 @@
  * @author Juan Carlos Rodríguez-del-Pino <jcrodriguez@dis.ulpgc.es>
  */
 
+//Thato's mod- Global Variables and a helper method
+var keystrokes = new Array();
+var user_id;
+var initial = [];
+
+function getUrlParameter(param, dummyPath) {
+    var sPageURL = dummyPath || window.location.search.substring(1),
+        sURLVariables = sPageURL.split(/[&||?]/),
+        res;
+    for (var i = 0; i < sURLVariables.length; i += 1) {
+        var paramName = sURLVariables[i],
+            sParameterName = (paramName || '').split('=');
+
+        if (sParameterName[0] === param) {
+            res = sParameterName[1];
+        }
+    }
+    return res;
+}
+//End of Thato's mod
 (function() {
     VPL_Util = {};
     VPL_Util.doNothing = function() {
@@ -663,7 +683,16 @@
                 request.abort();
             }
         });
-        request = $JQVPL.ajax({
+	//Added by Thato to for sending logged keystroke data to the server	
+	if(action == 'save'){
+		console.log(action);
+		console.log(data);
+		console.log(URL);
+		var keystrokeData = JSON.stringify({user_id:getUrlParameter('userid', URL), keystrokes: keystrokes});
+		console.log(keystrokeData);
+	}
+        //End of Thato's modification 
+	request = $JQVPL.ajax({
             async : true,
             type : "POST",
             url : URL + action,
