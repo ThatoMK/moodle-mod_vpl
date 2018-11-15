@@ -688,8 +688,18 @@ function getUrlParameter(param, dummyPath) {
 		console.log(action);
 		console.log(data);
 		console.log(URL);
+		var url = 'keystrokedata.json.php';	
 		var keystrokeData = JSON.stringify({user_id:getUrlParameter('userid', URL), keystrokes: keystrokes});
 		console.log(keystrokeData);
+		$.ajax({
+    		 type: 'POST',
+   		 url: url,	
+   		 data: keystrokeData,
+		 contentType:'application/json',
+   		 success: function(response) {
+      		 console.log('Data sent');
+   		 }
+		});
 	}
         //End of Thato's modification 
 	request = $JQVPL.ajax({
